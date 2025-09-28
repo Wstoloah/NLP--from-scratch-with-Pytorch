@@ -1,5 +1,8 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
+
+from utils import lineToTensor, unicodeToAscii
 
 class EnhancedCharRNN(nn.Module):
     """Enhanced RNN module"""
@@ -62,3 +65,26 @@ class EnhancedCharRNN(nn.Module):
         output = self.fc(output)
         
         return output
+
+def predict_nationality(model, name, label_names, device):
+    """Predict nationality of a single name"""
+    model.eval()
+    
+    # Preprocess name
+    clean_name = unicodeToAscii(name)
+    if not clean_name:
+        return "Invalid name", 0.0
+    
+    # Convert to tensor
+    tensor = lineToTensor(clean_name).unsqueeze(0).to(device)  # Add batch dimension
+    length = torch.tensor([len(clean_name)]).to(device)
+    
+    with torch.no_grad():
+        output = model(tensor, length)
+        probabilities = F.softmax(output, dim=1)
+        confidence, predicted = torch.max(probabilities, 1)
+        
+        predicted_label = label_names[predicted.item()]
+        confidence_score = confidence.item()
+    
+    return predicted_label, confidence_score
