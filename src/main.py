@@ -50,7 +50,7 @@ if __name__ == "__main__":
                             collate_fn=collate_fn, num_workers=0)
     
     # Model parameters
-    hidden_size = 10
+    hidden_size = 64
     num_classes = len(dataset.labels_uniq)
     
     # Create model
@@ -80,10 +80,28 @@ if __name__ == "__main__":
     trainer.plot_confusion_matrix()
     
     # Test predictions on sample names
-    test_names = ["Smith", "Garcia", "Wang", "Singh", "Mueller", "Rossi", "Petrov"]
+    test_names = ["Smith", "Garcia", "Wang", "Singh", "Rossi", "Petrov", "Fatima", "Jules"]
     print("\nSample predictions:")
     for name in test_names:
         predicted, confidence = predict_nationality(model, name, dataset.labels_uniq, device)
         print(f"{name:10} -> {predicted:12} (confidence: {confidence:.3f})")
     
-    print(f"\nFinal best accuracy: {best_accuracy:.2f}%")
+    # Ensure results directory exists
+    results_dir = os.path.join(root, "results")
+    os.makedirs(results_dir, exist_ok=True)
+    results_file = os.path.join(results_dir, "training_results.txt")
+
+    # Write results to file
+    with open(results_file, "w") as f:
+        f.write("Training Results\n")
+        f.write("================\n")
+        f.write(f"Final best accuracy: {best_accuracy:.2f}%\n\n")
+
+        f.write("Sample Predictions:\n")
+        for name in test_names:
+            predicted, confidence = predict_nationality(model, name, dataset.labels_uniq, device)
+            result_line = f"{name:10} -> {predicted:12} (confidence: {confidence:.3f})\n"
+            f.write(result_line)
+            print(result_line.strip())  # Print to console as well
+
+    print(f"\nTraining results saved to {results_file}")
