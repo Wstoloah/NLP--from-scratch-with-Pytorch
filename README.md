@@ -44,8 +44,7 @@ NLP--from-scratch-with-Pytorch
 
 ## Usage
 1. Prepare the dataset:
-   - Ensure the `data/names/` directory contains `.txt` files with names categorized by nationality. 
-     Download link : [here](https://download.pytorch.org/tutorial/data.zip)
+   - Ensure the `data/names/` directory contains `.txt` files with names categorized by nationality.   [Download link](https://download.pytorch.org/tutorial/data.zip)
 
 2. Train the model:
    ```bash
