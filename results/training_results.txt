@@ -1,0 +1,13 @@
+Training Results
+================
+Final best accuracy: 78.19%
+
+Sample Predictions:
+Smith      -> English      (confidence: 0.507)
+Garcia     -> Italian      (confidence: 0.777)
+Wang       -> Chinese      (confidence: 0.479)
+Singh      -> English      (confidence: 0.371)
+Rossi      -> Italian      (confidence: 0.549)
+Petrov     -> Russian      (confidence: 0.993)
+Fatima     -> Japanese     (confidence: 0.645)
+Jules      -> English      (confidence: 0.526)
